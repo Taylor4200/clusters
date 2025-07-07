@@ -1,7 +1,5 @@
 import { createAsset } from 'pixi-svelte';
 
-import img from './mm_bg.webp';
-import rawAtlas from './mm_bg.atlas?raw';
-import spine from './mm_bg.json';
+import img from './mm_bg.png';
 
-export default createAsset({ img, rawAtlas, spine, preload: true });
+export default createAsset({ img, preload: true });

@@ -32,7 +32,10 @@
 	import Transition from './Transition.svelte';
 	import I18nTest from './I18nTest.svelte';
 
+	import assets from '../game/assets';
+
 	const context = getContext();
+	context.stateApp.assets = assets;
 
 	onMount(() => (context.stateLayout.showLoadingScreen = true));
 
@@ -84,12 +87,12 @@
 
 		<UI>
 			{#snippet gameName()}
-				<UiGameName name="CLUSTER GAME" />
+				<UiGameName name="The Heist" />
 			{/snippet}
 			{#snippet logo()}
 				<Text
 					anchor={{ x: 1, y: 0 }}
-					text="ADD YOUR LOGO"
+					text="ZEDGE"
 					style={{
 						fontFamily: 'proxima-nova',
 						fontSize: REM * 1.5,
