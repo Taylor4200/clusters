@@ -26,6 +26,7 @@
 	import FreeSpinOutro from './FreeSpinOutro.svelte';
 	import Transition from './Transition.svelte';
 	import I18nTest from './I18nTest.svelte';
+	import ControlPanel from '../components/ui/ControlPanel.svelte';
 
 	const context = getContext();
 
@@ -66,24 +67,7 @@
 			<Anticipations />
 		</MainContainer>
 
-		<UI>
-			{#snippet gameName()}
-				<UiGameName name="WAYS GAME" />
-			{/snippet}
-			{#snippet logo()}
-				<Text
-					anchor={{ x: 1, y: 0 }}
-					text="ADD YOUR LOGO"
-					style={{
-						fontFamily: 'proxima-nova',
-						fontSize: REM * 1.5,
-						fontWeight: '600',
-						lineHeight: REM * 2,
-						fill: 0xffffff,
-					}}
-				/>
-			{/snippet}
-		</UI>
+		<ControlPanel />
 		<Win />
 		<FreeSpinIntro />
 		{#if ['desktop', 'landscape'].includes(context.stateLayoutDerived.layoutType())}
