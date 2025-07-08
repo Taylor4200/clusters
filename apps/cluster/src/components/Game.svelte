@@ -38,6 +38,18 @@
 	const context = getContext();
 	context.stateApp.assets = assets;
 
+	// Add time state and update logic
+	let currentTime = '';
+	function updateTime() {
+		const now = new Date();
+		currentTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+	}
+	onMount(() => {
+		updateTime();
+		const interval = setInterval(updateTime, 1000);
+		return () => clearInterval(interval);
+	});
+
 	onMount(() => (context.stateLayout.showLoadingScreen = true));
 
 	context.eventEmitter.subscribeOnMount({
@@ -46,6 +58,50 @@
 		},
 	});
 </script>
+
+<style>
+	.game-header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 48px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		z-index: 1100;
+		pointer-events: none;
+		padding: 0 32px;
+		background: linear-gradient(to bottom, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.0) 10%);
+	}
+	.header-left, .header-right {
+		display: flex;
+		align-items: center;
+		gap: 18px;
+		font-family: 'proxima-nova', Arial, sans-serif;
+		font-size: 1.1rem;
+		color: #fff;
+		font-weight: 600;
+		pointer-events: auto;
+	}
+	.game-name {
+		letter-spacing: 0.04em;
+		font-size: 1.2rem;
+		font-weight: 700;
+	}
+	.game-time {
+		font-size: 1rem;
+		opacity: 0.7;
+		font-weight: 400;
+	}
+	.studio-name {
+		font-size: 1.1rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		color: #fff;
+		opacity: 0.85;
+	}
+</style>
 
 <App>
 	<EnableSound />
@@ -86,7 +142,22 @@
 			<ClusterWinAmounts />
 		</MainContainer>
 
-		<ControlPanel />
+		<!-- Game/studio header overlay -->
+		<div class="game-header">
+			<div class="header-left">
+				<span class="game-name">The Heist</span>
+				<span class="game-time">{currentTime}</span>
+			</div>
+			<div class="header-right">
+				<span class="studio-name">ZEDGE</span>
+			</div>
+		</div>
+
+		<!-- Add the new ControlPanel overlay -->
+		<div style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000; pointer-events: auto;">
+			<ControlPanel />
+		</div>
+
 		<Win />
 		<FreeSpinIntro />
 		{#if ['desktop', 'landscape'].includes(context.stateLayoutDerived.layoutType())}
