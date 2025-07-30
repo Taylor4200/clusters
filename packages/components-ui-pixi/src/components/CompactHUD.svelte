@@ -18,7 +18,7 @@
 	const HUD_WIDTH = 700;
 	const HUD_HEIGHT = 100;
 	const HUD_BG_COLOR = 0x2c3e50;
-	const HUD_BG_ALPHA = 0.4;
+	const HUD_BG_ALPHA = 0.2;
 	const BUTTON_SIZE = 50;
 	const SPACING = 120;
 	

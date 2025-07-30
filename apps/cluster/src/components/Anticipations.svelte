@@ -11,6 +11,7 @@
 	);
 </script>
 
+<!-- Disabled anticipation/rock animations
 {#if hasAnticipation}
 	<OnMount
 		onmount={() => {
@@ -35,3 +36,4 @@
 		<Anticipation {reel} oncomplete={() => (reel.reelState.anticipating = false)} />
 	{/if}
 {/each}
+-->

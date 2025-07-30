@@ -4,6 +4,9 @@
   import InfoPanel from './InfoPanel.svelte';
   import DropdownPanel from './DropdownPanel.svelte';
   import { getContext } from '../../game/context';
+  import SpinButton from './SpinButton.svelte';
+  import OnHotkey from './OnHotkey.svelte';
+  import NumberImage from './NumberImage.svelte';
 
   let showAutoplay = false;
   let showVolume = false;
@@ -100,19 +103,22 @@
   </div>
 
   <div class="center-group">
-    <button class="spin-btn {spinning ? 'spinning' : ''}" on:click={handleSpin} aria-label="Spin">
-      <svg class="spin-icon" width="56" height="56" viewBox="0 0 56 56">
-        <defs>
-          <radialGradient id="spinGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#fff" stop-opacity="1"/>
-            <stop offset="100%" stop-color="#e0e0e0" stop-opacity="1"/>
-          </radialGradient>
-        </defs>
-        <circle cx="28" cy="28" r="26" fill="url(#spinGrad)" stroke="#222" stroke-width="2.5"/>
-        <path d="M28 10a18 18 0 1 1-12.7 5.3" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
-        <polygon points="11,7 11,19 21,13" fill="#111"/>
-      </svg>
-    </button>
+    <OnHotkey hotkey="Space" disabled={spinning} onpress={handleSpin} />
+    <div style="position: absolute; left: 20%; top: -10px; transform: translateX(-50%);">
+      <button class="spin-btn {spinning ? 'spinning' : ''}" on:click={handleSpin} aria-label="Spin">
+        <svg class="spin-icon" width="56" height="56" viewBox="0 0 56 56">
+          <defs>
+            <radialGradient id="spinGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff" stop-opacity="1"/>
+              <stop offset="100%" stop-color="#e0e0e0" stop-opacity="1"/>
+            </radialGradient>
+          </defs>
+          <circle cx="28" cy="28" r="26" fill="url(#spinGrad)" stroke="#222" stroke-width="2.5"/>
+          <path d="M28 10a18 18 0 1 1-12.7 5.3" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <polygon points="11,7 11,19 21,13" fill="#111"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <div class="right-group">
@@ -122,7 +128,7 @@
       </div>
       <div class="autoplay-container">
         {#if isAutoPlaying}
-          <div class="autoplay-counter">{autoPlayCount === Infinity ? '∞' : autoPlayCount} left</div>
+          <div class="autoplay-counter"><NumberImage value={autoPlayCount === Infinity ? '∞' : autoPlayCount} /> left</div>
         {/if}
         <div class="icon-btn autoplay {isAutoPlaying ? 'active' : ''}" on:click={toggleAutoplay} aria-label="Autoplay">
           <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="2" fill="none"/><polygon points="10,8 16,12 10,16" fill="#fff"/></svg>
@@ -192,7 +198,7 @@
     right: 0;
     bottom: 0;
     height: 64px;
-    background: rgba(10, 10, 10, 0.95);
+    background: rgba(10, 10, 10, 0.7);
     display: flex;
     align-items: center;
     justify-content: space-between;

@@ -22,13 +22,14 @@
 		width: panelWidth,
 		height: panelWidth / PANEL_RATIO_DESKTOP,
 	});
-	const scale = 1;
+	const scale = 2;
 	const position = $derived({
 		x:
 			context.stateGameDerived.boardLayout().x -
 			context.stateGameDerived.boardLayout().width * 0.5 -
 			panelSizes.width -
-			SYMBOL_SIZE * 0.7,
+			SYMBOL_SIZE * 0.7
+			- context.stateGameDerived.boardLayout().width * 0.2,
 		y:
 			context.stateGameDerived.boardLayout().y -
 			context.stateGameDerived.boardLayout().height * 0.5,

@@ -11,8 +11,8 @@
 		context.stateLayoutDerived.normalBackgroundLayout({ scale: 1 }),
 	);
 
-	const showBaseBackground = $derived(context.stateGame.gameType === 'basegame');
-	const showFeatureBackground = $derived(context.stateGame.gameType === 'freegame');
+	const showBaseBackground = $derived(context.stateGame.gameType === 'basegame' || context.stateGame.gameType === 'freegame');
+	// const showFeatureBackground = $derived(context.stateGame.gameType === 'freegame'); // Disabled feature background
 </script>
 
 <Rectangle {...context.stateLayoutDerived.canvasSizes()} backgroundColor={0x000000} zIndex={-3} />
@@ -21,6 +21,8 @@
 	<Sprite key="foregroundAnimation" anchor={{ x: 0.5, y: 0.5 }} {...backgroundProps} />
 </FadeContainer>
 
+<!-- Disabled feature background to remove blue/pink glow
 <FadeContainer show={showFeatureBackground} duration={SECOND} zIndex={-1}>
 	<Sprite key="foregroundFeatureAnimation" anchor={{ x: 0.5, y: 0.5 }} {...backgroundProps} />
 </FadeContainer>
+-->

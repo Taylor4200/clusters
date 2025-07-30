@@ -28,6 +28,7 @@
 	let winLevelData = $state<WinLevelData>();
 	let oncomplete = $state(() => {});
 	let onCountUpComplete = $state(() => {});
+	let coinEmissionTimeout = $state<number | null>(null);
 
 	context.eventEmitter.subscribeOnMount({
 		winShow: () => (show = true),
@@ -35,6 +36,15 @@
 		winUpdate: async (emitterEvent) => {
 			amount = emitterEvent.amount;
 			winLevelData = emitterEvent.winLevelData;
+			
+			// Set a timeout to stop coin emission after 1.5 seconds to prevent freezing
+			if (coinEmissionTimeout) {
+				clearTimeout(coinEmissionTimeout);
+			}
+			coinEmissionTimeout = setTimeout(() => {
+				coinEmissionTimeout = null;
+			}, 1500);
+			
 			await waitForResolve((resolve) => (oncomplete = resolve));
 		},
 	});
@@ -46,10 +56,6 @@
 		{@const duration = winLevelData.presentDuration}
 		<WinCountUpProvider {amount} {duration} oncomplete={() => onCountUpComplete()}>
 			{#snippet children({ countUpAmount, startCountUp, finishCountUp, countUpCompleted })}
-				{#if isBigWin}
-					<CanvasSizeRectangle backgroundColor={0x000000} backgroundAlpha={0.5} />
-				{/if}
-
 				<OnMount
 					onmount={async () => {
 						await startCountUp();
@@ -63,40 +69,23 @@
 						x={context.stateGameDerived.boardLayout().x}
 						y={context.stateGameDerived.boardLayout().y}
 					>
-						{#if winLevelData?.animation}
-							<WinAnimation animationMap={winLevelData.animation}>
-								<ResponsiveBitmapText
-									anchor={0.5}
-									maxWidth={2130}
-									text={bookEventAmountToCurrencyString(countUpAmount)}
-									style={{
-										fontFamily: 'gold',
-										fontSize: SYMBOL_SIZE * 3.6,
-										align: 'center',
-										fontWeight: 'bold',
-										letterSpacing: 0,
-									}}
-								/>
-							</WinAnimation>
-						{:else}
-							<ResponsiveBitmapText
-								anchor={0.5}
-								maxWidth={context.stateLayoutDerived.canvasSizes().width /
-									context.stateLayoutDerived.mainLayout().scale}
-								text={bookEventAmountToCurrencyString(countUpAmount)}
-								style={{
-									fontFamily: 'gold',
-									fontSize: SYMBOL_SIZE,
-									align: 'center',
-									fontWeight: 'bold',
-									letterSpacing: 0,
-								}}
-							/>
-						{/if}
+						<ResponsiveBitmapText
+							anchor={0.5}
+							maxWidth={context.stateLayoutDerived.canvasSizes().width /
+								context.stateLayoutDerived.mainLayout().scale}
+							text={bookEventAmountToCurrencyString(countUpAmount)}
+							style={{
+								fontFamily: 'gold',
+								fontSize: SYMBOL_SIZE,
+								align: 'center',
+								fontWeight: 'bold',
+								letterSpacing: 0,
+							}}
+						/>
 					</Container>
 				</MainContainer>
 
-				<WinCoins emit={!countUpCompleted} levelAlias={winLevelData?.alias} />
+				<WinCoins emit={!countUpCompleted && countUpAmount > 0 && coinEmissionTimeout !== null} levelAlias={winLevelData?.alias} />
 
 				<PressToContinue onpress={() => (countUpCompleted ? oncomplete() : finishCountUp())} />
 			{/snippet}

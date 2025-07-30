@@ -10,6 +10,7 @@
 	const context = getContext();
 </script>
 
+<!-- Disabled debug rectangle to remove semi-transparent background
 {#if props.debug}
 	<Rectangle
 		alpha={0.5}
@@ -18,6 +19,7 @@
 		height={context.stateGameDerived.boardLayout().height}
 	/>
 {/if}
+-->
 
 <Rectangle
 	isMask

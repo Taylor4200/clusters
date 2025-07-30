@@ -2,7 +2,7 @@ export default {
 	providerName: 'sample_provider',
 	gameName: 'sample_lines',
 	gameID: '0_0_cluster',
-	rtp: 0.97,
+	rtp: 0.99, // Increased from 0.97 to make it more generous
 	numReels: 7,
 	numRows: [7, 7, 7, 7, 7, 7, 7],
 	betModes: {
@@ -10,14 +10,14 @@ export default {
 			cost: 1.0,
 			feature: true,
 			buyBonus: false,
-			rtp: 0.97,
+			rtp: 0.99, // Increased from 0.97
 			max_win: 5000.0,
 		},
 		bonus: {
 			cost: 500,
 			feature: true,
 			buyBonus: false,
-			rtp: 0.97,
+			rtp: 0.99, // Increased from 0.97
 			max_win: 5000.0,
 		},
 	},
@@ -29,300 +29,300 @@ export default {
 		L4: {
 			paytable: [
 				{
-					'5': 0.1,
+					'5': 2.0, // Increased from 0.2 to make wins visible
 				},
 				{
-					'6': 0.5,
+					'6': 10.0, // Increased from 1.0
 				},
 				{
-					'7': 0.5,
+					'7': 10.0, // Increased from 1.0
 				},
 				{
-					'8': 0.5,
+					'8': 10.0, // Increased from 1.0
 				},
 				{
-					'9': 1.5,
+					'9': 30.0, // Increased from 3.0
 				},
 				{
-					'10': 1.5,
+					'10': 30.0, // Increased from 3.0
 				},
 				{
-					'11': 1.5,
+					'11': 30.0, // Increased from 3.0
 				},
 				{
-					'12': 1.5,
+					'12': 30.0, // Increased from 3.0
 				},
 				{
-					'13': 4.0,
+					'13': 80.0, // Increased from 8.0
 				},
 				{
-					'14': 4.0,
+					'14': 80.0, // Increased from 8.0
 				},
 				{
-					'15': 4.0,
+					'15': 80.0, // Increased from 8.0
 				},
 				{
-					'16': 4.0,
+					'16': 80.0, // Increased from 8.0
 				},
 				{
-					'17': 4.0,
+					'17': 80.0, // Increased from 8.0
 				},
 				{
-					'18': 4.0,
+					'18': 80.0, // Increased from 8.0
 				},
 				{
-					'19': 4.0,
+					'19': 80.0, // Increased from 8.0
 				},
 				{
-					'20': 4.0,
+					'20': 80.0, // Increased from 8.0
 				},
 				{
-					'21': 4.0,
+					'21': 80.0, // Increased from 8.0
 				},
 				{
-					'22': 4.0,
+					'22': 80.0, // Increased from 8.0
 				},
 				{
-					'23': 4.0,
+					'23': 80.0, // Increased from 8.0
 				},
 				{
-					'24': 4.0,
+					'24': 80.0, // Increased from 8.0
 				},
 				{
-					'25': 4.0,
+					'25': 80.0, // Increased from 8.0
 				},
 				{
-					'26': 4.0,
+					'26': 80.0, // Increased from 8.0
 				},
 				{
-					'27': 4.0,
+					'27': 80.0, // Increased from 8.0
 				},
 				{
-					'28': 4.0,
+					'28': 80.0, // Increased from 8.0
 				},
 				{
-					'29': 4.0,
+					'29': 80.0, // Increased from 8.0
 				},
 				{
-					'30': 4.0,
+					'30': 80.0, // Increased from 8.0
 				},
 				{
-					'31': 4.0,
+					'31': 80.0, // Increased from 8.0
 				},
 				{
-					'32': 4.0,
+					'32': 80.0, // Increased from 8.0
 				},
 				{
-					'33': 4.0,
+					'33': 80.0, // Increased from 8.0
 				},
 				{
-					'34': 4.0,
+					'34': 80.0, // Increased from 8.0
 				},
 				{
-					'35': 4.0,
+					'35': 80.0, // Increased from 8.0
 				},
 				{
-					'36': 4.0,
+					'36': 80.0, // Increased from 8.0
 				},
 			],
 		},
 		L1: {
 			paytable: [
 				{
-					'5': 0.6,
+					'5': 12.0, // Increased from 1.2 to make wins visible
 				},
 				{
-					'6': 1.5,
+					'6': 30.0, // Increased from 3.0
 				},
 				{
-					'7': 1.5,
+					'7': 30.0, // Increased from 3.0
 				},
 				{
-					'8': 1.5,
+					'8': 30.0, // Increased from 3.0
 				},
 				{
-					'9': 4.0,
+					'9': 80.0, // Increased from 8.0
 				},
 				{
-					'10': 4.0,
+					'10': 80.0, // Increased from 8.0
 				},
 				{
-					'11': 4.0,
+					'11': 80.0, // Increased from 8.0
 				},
 				{
-					'12': 4.0,
+					'12': 80.0, // Increased from 8.0
 				},
 				{
-					'13': 10.0,
+					'13': 200.0, // Increased from 20.0
 				},
 				{
-					'14': 10.0,
+					'14': 200.0, // Increased from 20.0
 				},
 				{
-					'15': 10.0,
+					'15': 200.0, // Increased from 20.0
 				},
 				{
-					'16': 10.0,
+					'16': 200.0, // Increased from 20.0
 				},
 				{
-					'17': 10.0,
+					'17': 200.0, // Increased from 20.0
 				},
 				{
-					'18': 10.0,
+					'18': 200.0, // Increased from 20.0
 				},
 				{
-					'19': 10.0,
+					'19': 200.0, // Increased from 20.0
 				},
 				{
-					'20': 10.0,
+					'20': 200.0, // Increased from 20.0
 				},
 				{
-					'21': 10.0,
+					'21': 200.0, // Increased from 20.0
 				},
 				{
-					'22': 10.0,
+					'22': 200.0, // Increased from 20.0
 				},
 				{
-					'23': 10.0,
+					'23': 200.0, // Increased from 20.0
 				},
 				{
-					'24': 10.0,
+					'24': 200.0, // Increased from 20.0
 				},
 				{
-					'25': 10.0,
+					'25': 200.0, // Increased from 20.0
 				},
 				{
-					'26': 10.0,
+					'26': 200.0, // Increased from 20.0
 				},
 				{
-					'27': 10.0,
+					'27': 200.0, // Increased from 20.0
 				},
 				{
-					'28': 10.0,
+					'28': 200.0, // Increased from 20.0
 				},
 				{
-					'29': 10.0,
+					'29': 200.0, // Increased from 20.0
 				},
 				{
-					'30': 10.0,
+					'30': 200.0, // Increased from 20.0
 				},
 				{
-					'31': 10.0,
+					'31': 200.0, // Increased from 20.0
 				},
 				{
-					'32': 10.0,
+					'32': 200.0, // Increased from 20.0
 				},
 				{
-					'33': 10.0,
+					'33': 200.0, // Increased from 20.0
 				},
 				{
-					'34': 10.0,
+					'34': 200.0, // Increased from 20.0
 				},
 				{
-					'35': 10.0,
+					'35': 200.0, // Increased from 20.0
 				},
 				{
-					'36': 10.0,
+					'36': 200.0, // Increased from 20.0
 				},
 			],
 		},
 		H3: {
 			paytable: [
 				{
-					'5': 1.3,
+					'5': 26.0, // Increased from 2.6 to make wins visible
 				},
 				{
-					'6': 3.2,
+					'6': 64.0, // Increased from 6.4
 				},
 				{
-					'7': 3.2,
+					'7': 64.0, // Increased from 6.4
 				},
 				{
-					'8': 3.2,
+					'8': 64.0, // Increased from 6.4
 				},
 				{
-					'9': 7.0,
+					'9': 140.0, // Increased from 14.0
 				},
 				{
-					'10': 7.0,
+					'10': 140.0, // Increased from 14.0
 				},
 				{
-					'11': 7.0,
+					'11': 140.0, // Increased from 14.0
 				},
 				{
-					'12': 7.0,
+					'12': 140.0, // Increased from 14.0
 				},
 				{
-					'13': 30.0,
+					'13': 600.0, // Increased from 60.0
 				},
 				{
-					'14': 30.0,
+					'14': 600.0, // Increased from 60.0
 				},
 				{
-					'15': 30.0,
+					'15': 600.0, // Increased from 60.0
 				},
 				{
-					'16': 30.0,
+					'16': 600.0, // Increased from 60.0
 				},
 				{
-					'17': 30.0,
+					'17': 600.0, // Increased from 60.0
 				},
 				{
-					'18': 30.0,
+					'18': 600.0, // Increased from 60.0
 				},
 				{
-					'19': 30.0,
+					'19': 600.0, // Increased from 60.0
 				},
 				{
-					'20': 30.0,
+					'20': 600.0, // Increased from 60.0
 				},
 				{
-					'21': 30.0,
+					'21': 600.0, // Increased from 60.0
 				},
 				{
-					'22': 30.0,
+					'22': 600.0, // Increased from 60.0
 				},
 				{
-					'23': 30.0,
+					'23': 600.0, // Increased from 60.0
 				},
 				{
-					'24': 30.0,
+					'24': 600.0, // Increased from 60.0
 				},
 				{
-					'25': 30.0,
+					'25': 600.0, // Increased from 60.0
 				},
 				{
-					'26': 30.0,
+					'26': 600.0, // Increased from 60.0
 				},
 				{
-					'27': 30.0,
+					'27': 600.0, // Increased from 60.0
 				},
 				{
-					'28': 30.0,
+					'28': 600.0, // Increased from 60.0
 				},
 				{
-					'29': 30.0,
+					'29': 600.0, // Increased from 60.0
 				},
 				{
-					'30': 30.0,
+					'30': 600.0, // Increased from 60.0
 				},
 				{
-					'31': 30.0,
+					'31': 600.0, // Increased from 60.0
 				},
 				{
-					'32': 30.0,
+					'32': 600.0, // Increased from 60.0
 				},
 				{
-					'33': 30.0,
+					'33': 600.0, // Increased from 60.0
 				},
 				{
-					'34': 30.0,
+					'34': 600.0, // Increased from 60.0
 				},
 				{
-					'35': 30.0,
+					'35': 600.0, // Increased from 60.0
 				},
 				{
-					'36': 30.0,
+					'36': 600.0, // Increased from 60.0
 				},
 			],
 		},

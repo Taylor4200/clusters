@@ -1,26 +1,17 @@
 <script lang="ts">
-	import { SpineProvider, SpineTrack } from 'pixi-svelte';
-	import { getContext } from '../game/context';
-
+	import { onMount } from 'svelte';
 	type Props = {
 		oncomplete: () => void;
 	};
 
 	const props: Props = $props();
-	const context = getContext();
+
+	onMount(() => {
+		const timeout = setTimeout(() => {
+			props.oncomplete();
+		}, 1000);
+		return () => clearTimeout(timeout);
+	});
 </script>
 
-<SpineProvider
-	key="transition"
-	x={context.stateLayoutDerived.canvasSizes().width * 0.5}
-	y={context.stateLayoutDerived.canvasSizes().height * 0.5}
-	height={context.stateLayoutDerived.canvasSizes().height * 1.7}
->
-	<SpineTrack
-		trackIndex={0}
-		animationName={'animation'}
-		listener={{
-			complete: props.oncomplete,
-		}}
-	/>
-</SpineProvider>
+<!-- No animation, just a pause. The background remains visible because this component overlays nothing. -->

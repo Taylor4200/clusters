@@ -31,6 +31,7 @@
 	let winLevelData = $state<WinLevelData>();
 	let oncomplete = $state(() => {});
 	let onCountUpComplete = $state(() => {});
+	let coinEmissionTimeout = $state<number | null>(null);
 
 	context.eventEmitter.subscribeOnMount({
 		freeSpinOutroShow: () => (show = true),
@@ -38,6 +39,15 @@
 		freeSpinOutroCountUp: async (emitterEvent) => {
 			amount = emitterEvent.amount;
 			winLevelData = emitterEvent.winLevelData;
+			
+			// Set a timeout to stop coin emission after 1.5 seconds to prevent freezing
+			if (coinEmissionTimeout) {
+				clearTimeout(coinEmissionTimeout);
+			}
+			coinEmissionTimeout = setTimeout(() => {
+				coinEmissionTimeout = null;
+			}, 1500);
+			
 			await waitForResolve((resolve) => (oncomplete = resolve));
 		},
 	});
@@ -50,8 +60,6 @@
 		<WinCountUpProvider {amount} {duration} oncomplete={() => onCountUpComplete()}>
 			{#snippet children({ countUpAmount, startCountUp, finishCountUp, countUpCompleted })}
 				<OnMount onmount={() => startCountUp()} />
-
-				<CanvasSizeRectangle backgroundColor={0x000000} backgroundAlpha={0.5} />
 
 				<FreeSpinAnimation>
 					{#snippet children({ sizes })}
@@ -103,7 +111,7 @@
 					{/snippet}
 				</FreeSpinAnimation>
 
-				<WinCoins emit={!countUpCompleted} levelAlias={winLevelData?.alias} />
+				<WinCoins emit={!countUpCompleted && countUpAmount > 0 && coinEmissionTimeout !== null} levelAlias={winLevelData?.alias} />
 
 				<PressToContinue onpress={() => (countUpCompleted ? oncomplete() : finishCountUp())} />
 			{/snippet}

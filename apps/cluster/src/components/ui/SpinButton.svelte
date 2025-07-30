@@ -4,6 +4,13 @@
 
   let spinning = false;
 
+  // Example default position: bottom center. Edit this to your liking!
+  export let wrapperStyle = "position: absolute; left: 50%; bottom: 2rem; transform: translateX(-50%);";
+  export let wrapperClass = "";
+
+  export let style = "";
+  export let className = "";
+
   function spin() {
     spinning = true;
     dispatch('click');
@@ -11,9 +18,15 @@
   }
 </script>
 
-<button class="spin-btn {spinning ? 'spinning' : ''}" on:click={spin}>
-  SPIN
-</button>
+<div class={wrapperClass} style={wrapperStyle}>
+  <button
+    class="spin-btn {spinning ? 'spinning' : ''} {className}"
+    style={style}
+    on:click={spin}
+  >
+    SPIN
+  </button>
+</div>
 
 <style>
   .spin-btn {

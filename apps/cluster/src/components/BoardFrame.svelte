@@ -20,15 +20,18 @@
 
 	context.eventEmitter.subscribeOnMount({
 		boardFrameGlowShow: () => {
-			animationName = 'reelhouse_glow_start';
-			loop = false;
+			// Disabled glow effect
+			// animationName = 'reelhouse_glow_start';
+			// loop = false;
 		},
 		boardFrameGlowHide: () => {
-			if (animationName) animationName = 'reelhouse_glow_exit';
+			// Disabled glow effect
+			// if (animationName) animationName = 'reelhouse_glow_exit';
 		},
 	});
 </script>
 
+<!-- Disabled glow effect
 {#if animationName}
 	<SpineProvider
 		zIndex={-1}
@@ -60,10 +63,14 @@
 		/>
 	</SpineProvider>
 {/if}
+-->
 
+<!-- Reel frame visible with reduced brightness to remove glow -->
 <Sprite
 	key="reelsFrame"
 	anchor={0.5}
+	alpha={1}
+	tint={0xffffff}
 	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT}
 	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT}
 	width={context.stateGameDerived.boardLayout().width * 1.33}

@@ -37,6 +37,7 @@
 	let animationName = $state<AnimationName>('intro');
 </script>
 
+<!-- Disabled FreeSpinAnimation to remove glow effects
 <MainContainer>
 	<Container
 		x={context.stateGameDerived.boardLayout().x}
@@ -63,3 +64,4 @@
 		</SpineProvider>
 	</Container>
 </MainContainer>
+-->
