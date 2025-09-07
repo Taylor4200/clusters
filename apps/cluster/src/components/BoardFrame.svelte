@@ -18,6 +18,11 @@
 	let animationName = $state<AnimationName | undefined>(undefined);
 	let loop = $state(false);
 
+	// Reactive statement to ensure updates when game type changes
+	$effect(() => {
+		context.stateGame.gameType;
+	});
+
 	context.eventEmitter.subscribeOnMount({
 		boardFrameGlowShow: () => {
 			// Disabled glow effect
@@ -70,7 +75,7 @@
 	key="reelsFrame"
 	anchor={0.5}
 	alpha={1}
-	tint={0xffffff}
+	tint={context.stateGame.gameType === 'freegame' ? 0xFFD700 : 0xffffff}
 	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT}
 	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT}
 	width={context.stateGameDerived.boardLayout().width * 1.33}

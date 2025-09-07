@@ -11,8 +11,17 @@
 		context.stateLayoutDerived.normalBackgroundLayout({ scale: 1 }),
 	);
 
-	const showBaseBackground = $derived(context.stateGame.gameType === 'basegame' || context.stateGame.gameType === 'freegame');
-	// const showFeatureBackground = $derived(context.stateGame.gameType === 'freegame'); // Disabled feature background
+	const showBaseBackground = $derived(context.stateGame.gameType === 'basegame');
+	const showFeatureBackground = $derived(context.stateGame.gameType === 'freegame');
+	const showTreasureVault = $derived(context.stateGame.showTreasureVault);
+	
+	// Debug logging
+	$effect(() => {
+		console.log('Background Debug - gameType:', context.stateGame.gameType);
+		console.log('Background Debug - showBaseBackground:', showBaseBackground);
+		console.log('Background Debug - showFeatureBackground:', showFeatureBackground);
+		console.log('Background Debug - full game state:', context.stateGame);
+	});
 </script>
 
 <Rectangle {...context.stateLayoutDerived.canvasSizes()} backgroundColor={0x000000} zIndex={-3} />
@@ -21,8 +30,7 @@
 	<Sprite key="foregroundAnimation" anchor={{ x: 0.5, y: 0.5 }} {...backgroundProps} />
 </FadeContainer>
 
-<!-- Disabled feature background to remove blue/pink glow
-<FadeContainer show={showFeatureBackground} duration={SECOND} zIndex={-1}>
-	<Sprite key="foregroundFeatureAnimation" anchor={{ x: 0.5, y: 0.5 }} {...backgroundProps} />
+<!-- Bonus background - only show when in bonus mode -->
+<FadeContainer show={showTreasureVault} duration={SECOND} zIndex={-1}>
+	<Sprite key="treasureVaultBg" anchor={{ x: 0.5, y: 0.5 }} {...backgroundProps} />
 </FadeContainer>
--->

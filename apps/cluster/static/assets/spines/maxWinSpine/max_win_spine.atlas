@@ -1,0 +1,12 @@
+max_win_spine.webp
+size: 1200,900
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+max_win_spine
+  rotate: false
+  xy: 0, 0
+  size: 1200, 900
+  orig: 1200, 900
+  offset: 0, 0
+  index: -1

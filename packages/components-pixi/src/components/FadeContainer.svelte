@@ -29,6 +29,6 @@
 
 {#if alpha.current > 0 || persistent}
 	<Container {...restProps} alpha={alpha.current}>
-		{@render children()}
+		{@render children?.()}
 	</Container>
 {/if}

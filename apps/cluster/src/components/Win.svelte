@@ -18,6 +18,7 @@
 	import WinCoins from './WinCoins.svelte';
 	import WinAnimation from './WinAnimation.svelte';
 	import PressToContinue from './PressToContinue.svelte';
+	import { Sprite } from 'pixi-svelte';
 	import { SYMBOL_SIZE } from '../game/constants';
 	import { getContext } from '../game/context';
 
@@ -75,8 +76,8 @@
 								context.stateLayoutDerived.mainLayout().scale}
 							text={bookEventAmountToCurrencyString(countUpAmount)}
 							style={{
-								fontFamily: 'gold',
-								fontSize: SYMBOL_SIZE,
+								fontFamily: 'superbubble',
+								fontSize: SYMBOL_SIZE * 1.5,
 								align: 'center',
 								fontWeight: 'bold',
 								letterSpacing: 0,
@@ -86,6 +87,21 @@
 				</MainContainer>
 
 				<WinCoins emit={!countUpCompleted && countUpAmount > 0 && coinEmissionTimeout !== null} levelAlias={winLevelData?.alias} />
+
+				{#if isBigWin && winLevelData}
+					<!-- Custom Big Win Spine Animation -->
+					<WinAnimation animationMap={winLevelData.animation!}>
+						<!-- Pig Police Vault Image for Big Wins -->
+						<Sprite
+							key="pigPoliceVault"
+							anchor={{ x: 0.5, y: 0.5 }}
+							x={context.stateLayoutDerived.mainLayout().width * 0.5}
+							y={context.stateLayoutDerived.mainLayout().height * 0.5}
+							width={context.stateLayoutDerived.mainLayout().width * 0.6}
+							height={context.stateLayoutDerived.mainLayout().height * 0.4}
+						/>
+					</WinAnimation>
+				{/if}
 
 				<PressToContinue onpress={() => (countUpCompleted ? oncomplete() : finishCountUp())} />
 			{/snippet}

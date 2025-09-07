@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cluster Game Test</title>
+</head>
+<body>
+    <h1>Cluster Game Test</h1>
+    <p>If you can see this, the server is working.</p>
+    <p>Check the browser console (F12) for any JavaScript errors.</p>
+    
+    <script>
+        // Test asset loading
+        fetch('/assets/sprites/heistContinue/heist_continue_screen.webp')
+            .then(response => {
+                if (response.ok) {
+                    console.log('✅ Heist continue image loads successfully');
+                } else {
+                    console.log('❌ Heist continue image failed:', response.status);
+                }
+            })
+            .catch(error => {
+                console.log('❌ Heist continue image error:', error);
+            });
+            
+        fetch('/assets/spines/foregroundFeatureAnimation/treasure_vault_bg.webp')
+            .then(response => {
+                if (response.ok) {
+                    console.log('✅ Treasure vault background loads successfully');
+                } else {
+                    console.log('❌ Treasure vault background failed:', response.status);
+                }
+            })
+            .catch(error => {
+                console.log('❌ Treasure vault background error:', error);
+            });
+    </script>
+</body>
+</html>

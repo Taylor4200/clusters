@@ -53,8 +53,10 @@
 		freeSpinCounterShow: () => (show = true),
 		freeSpinCounterHide: () => (show = false),
 		freeSpinCounterUpdate: (emitterEvent) => {
+			console.log('FreeSpinCounter received update:', emitterEvent);
 			if (emitterEvent.current !== undefined) current = emitterEvent.current;
 			if (emitterEvent.total !== undefined) total = emitterEvent.total;
+			console.log('FreeSpinCounter updated - current:', current, 'total:', total);
 		},
 	});
 </script>
@@ -73,10 +75,12 @@
 			<BitmapText
 				text={'FREE SPIN'}
 				style={{
-					fontFamily: 'gold',
+					fontFamily: 'superbubble',
 					fontSize,
 					wordWrap: false,
+					fontWeight: 'bold',
 				}}
+				tint={0xFFD700}
 				onresize={(sizes) => (titleSizes = sizes)}
 			/>
 			<BitmapText
@@ -84,9 +88,11 @@
 				{...counterPosition}
 				anchor={{ x: 0.5, y: 0 }}
 				style={{
-					fontFamily: 'gold',
+					fontFamily: 'superbubble',
 					fontSize,
+					fontWeight: 'bold',
 				}}
+				tint={0xFFD700}
 				onresize={(sizes) => (counterSizes = sizes)}
 			/>
 		</Container>

@@ -37,31 +37,32 @@
 	let animationName = $state<AnimationName>('intro');
 </script>
 
-<!-- Disabled FreeSpinAnimation to remove glow effects
+<!-- FreeSpinAnimation component for buy bonus feature -->
 <MainContainer>
 	<Container
 		x={context.stateGameDerived.boardLayout().x}
 		y={context.stateGameDerived.boardLayout().y}
 		pivot={anchorToPivot({ anchor: 0.5, sizes: BACKGROUND_SIZES })}
 	>
-		<SpineProvider
-			key="fsIntro"
-			width={PANEL_SIZES.width}
+		<!-- Render children directly without Spine animation -->
+		<Container
 			x={PANEL_SIZES.width * 0.5}
 			y={PANEL_SIZES.height * 0.4}
 		>
-			<SpineTrack
-				trackIndex={0}
-				{animationName}
-				loop={animationName === 'idle'}
-				listener={{
-					complete: () => (animationName = 'idle'),
-				}}
-			/>
-			<SpineSlot slotName="slot_text_placeholder">
-				{@render props.children({ sizes: BACKGROUND_SIZES })}
-			</SpineSlot>
-		</SpineProvider>
+			{@render props.children({ sizes: BACKGROUND_SIZES })}
+		</Container>
 	</Container>
 </MainContainer>
--->
+
+<style>
+	:global(.spine-glow-hider) {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: transparent;
+		pointer-events: none;
+		z-index: 10;
+	}
+</style>

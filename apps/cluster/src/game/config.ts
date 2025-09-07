@@ -9,14 +9,14 @@ export default {
 		base: {
 			cost: 1.0,
 			feature: true,
-			buyBonus: false,
+			buyBonus: true,
 			rtp: 0.99, // Increased from 0.97
 			max_win: 5000.0,
 		},
 		bonus: {
 			cost: 500,
 			feature: true,
-			buyBonus: false,
+			buyBonus: true,
 			rtp: 0.99, // Increased from 0.97
 			max_win: 5000.0,
 		},
@@ -829,6 +829,178 @@ export default {
 					'36': 5.0,
 				},
 			],
+		},
+		// Mathematical sequence symbols
+		MATH_FIB: {
+			paytable: [
+				{
+					'3': 50.0, // Fibonacci sequence: 1,1,2,3,5,8,13...
+				},
+				{
+					'4': 100.0,
+				},
+				{
+					'5': 200.0,
+				},
+				{
+					'6': 500.0,
+				},
+			],
+			special_properties: ['math_sequence'],
+		},
+		MATH_PRIME: {
+			paytable: [
+				{
+					'3': 75.0, // Prime sequence: 2,3,5,7,11,13,17...
+				},
+				{
+					'4': 150.0,
+				},
+				{
+					'5': 300.0,
+				},
+				{
+					'6': 750.0,
+				},
+			],
+			special_properties: ['math_sequence'],
+		},
+		MATH_ARITH: {
+			paytable: [
+				{
+					'3': 40.0, // Arithmetic sequence: 1,2,3,4,5,6,7...
+				},
+				{
+					'4': 80.0,
+				},
+				{
+					'5': 160.0,
+				},
+				{
+					'6': 400.0,
+				},
+			],
+			special_properties: ['math_sequence'],
+		},
+		MATH_GEOM: {
+			paytable: [
+				{
+					'3': 60.0, // Geometric sequence: 1,2,4,8,16,32,64...
+				},
+				{
+					'4': 120.0,
+				},
+				{
+					'5': 240.0,
+				},
+				{
+					'6': 600.0,
+				},
+			],
+			special_properties: ['math_sequence'],
+		},
+		// Golden Letter Symbols (A-Z)
+		GOLD_A: {
+			paytable: [
+				{
+					'3': 25.0,
+				},
+				{
+					'4': 50.0,
+				},
+				{
+					'5': 100.0,
+				},
+				{
+					'6': 200.0,
+				},
+			],
+			special_properties: ['golden_letter'],
+		},
+		GOLD_B: {
+			paytable: [
+				{
+					'3': 25.0,
+				},
+				{
+					'4': 50.0,
+				},
+				{
+					'5': 100.0,
+				},
+				{
+					'6': 200.0,
+				},
+			],
+			special_properties: ['golden_letter'],
+		},
+		GOLD_C: {
+			paytable: [
+				{
+					'3': 25.0,
+				},
+				{
+					'4': 50.0,
+				},
+				{
+					'5': 100.0,
+				},
+				{
+					'6': 200.0,
+				},
+			],
+			special_properties: ['golden_letter'],
+		},
+		GOLD_D: {
+			paytable: [
+				{
+					'3': 25.0,
+				},
+				{
+					'4': 50.0,
+				},
+				{
+					'5': 100.0,
+				},
+				{
+					'6': 200.0,
+				},
+			],
+			special_properties: ['golden_letter'],
+		},
+		GOLD_E: {
+			paytable: [
+				{
+					'3': 25.0,
+				},
+				{
+					'4': 50.0,
+				},
+				{
+					'5': 100.0,
+				},
+				{
+					'6': 200.0,
+				},
+			],
+			special_properties: ['golden_letter'],
+		},
+		GOLD_F: {
+			paytable: [
+				{
+					'3': 25.0,
+				},
+				{
+					'4': 50.0,
+				},
+				{
+					'5': 100.0,
+				},
+				{
+					'6': 200.0,
+				},
+			],
+			special_properties: ['golden_letter'],
 		},
 	},
 	paddingReels: {

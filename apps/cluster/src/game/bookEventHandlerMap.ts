@@ -90,25 +90,46 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	},
 	setTotalWin: async (bookEvent: BookEventOfType<'setTotalWin'>) => {
 		stateBet.winBookEventAmount = bookEvent.amount;
+		
+		// Check if we've hit the win cap (5000x bet)
+		const winCapMultiplier = 5000.0;
+		const currentBetAmount = stateBet.betAmount;
+		const maxPossibleWin = currentBetAmount * winCapMultiplier;
+		
+		if (bookEvent.amount >= maxPossibleWin) {
+			// Player hit the win cap - show max win screen
+			eventEmitter.broadcast({ type: 'winScreenShow' });
+			eventEmitter.broadcast({
+				type: 'winScreenUpdate',
+				amount: bookEvent.amount,
+				winLevelData: winLevelMap[6] // Use max win level data
+			});
+		}
 	},
 	freeSpinTrigger: async (bookEvent: BookEventOfType<'freeSpinTrigger'>) => {
-		// animate scatters
-		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_scatter_win_v2' });
-		await animateSymbols({ positions: bookEvent.positions });
-		// show free spin intro
+		// animate scatters - DISABLED to prevent symbol removal
+		// eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_scatter_win_v2' });
+		// await animateSymbols({ positions: bookEvent.positions });
+		// Skip heist continue screen to avoid white screen issues
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_superfreespin' });
-		await eventEmitter.broadcastAsync({ type: 'uiHide' });
-		await eventEmitter.broadcastAsync({ type: 'transition' });
-		eventEmitter.broadcast({ type: 'freeSpinIntroShow' });
+		// DISABLED - these might be clearing the board
+		// await eventEmitter.broadcastAsync({ type: 'uiHide' });
+		// await eventEmitter.broadcastAsync({ type: 'transition' });
+		// eventEmitter.broadcast({ type: 'heistContinueShow' });
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'jng_intro_fs' });
 		eventEmitter.broadcast({ type: 'soundMusic', name: 'bgm_freespin' });
-		await eventEmitter.broadcastAsync({
-			type: 'freeSpinIntroUpdate',
-			totalFreeSpins: bookEvent.totalFs,
-		});
-		stateGame.gameType = 'freegame';
-		eventEmitter.broadcast({ type: 'freeSpinIntroHide' });
-		// eventEmitter.broadcast({ type: 'boardFrameGlowShow' }); // Disabled glow effect
+		// await eventEmitter.broadcastAsync({
+		// 	type: 'heistContinueUpdate',
+		// });
+		// Simple approach - just show free spins UI
+		console.log('Free spins mode activated - treasure vault background is now visible');
+		// Set treasure vault background to visible
+		stateGame.showTreasureVault = true;
+		// eventEmitter.broadcast({ type: 'heistContinueHide' });
+		// Skip boom explosion to avoid white screen issues
+		// eventEmitter.broadcast({ type: 'boomExplosionShow' });
+		// await eventEmitter.broadcastAsync({ type: 'boomExplosionUpdate' });
+		// eventEmitter.broadcast({ type: 'boomExplosionHide' });
 		eventEmitter.broadcast({ type: 'globalMultiplierShow' });
 		await eventEmitter.broadcastAsync({
 			type: 'globalMultiplierUpdate',
@@ -117,31 +138,52 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'freeSpinCounterShow' });
 		eventEmitter.broadcast({
 			type: 'freeSpinCounterUpdate',
-			current: undefined,
+			current: 0, // Start with 0 free spins used
 			total: bookEvent.totalFs,
 		});
-		await eventEmitter.broadcastAsync({ type: 'uiShow' });
+		// DISABLED - might be interfering with symbols
+		// await eventEmitter.broadcastAsync({ type: 'uiShow' });
 		await eventEmitter.broadcastAsync({ type: 'drawerButtonShow' });
 		eventEmitter.broadcast({ type: 'drawerFold' });
+		
+		// Free spins mode activated - treasure vault background ready
+		console.log(`Free spins mode activated: ${bookEvent.totalFs} free spins available`);
+		console.log('Treasure vault background is now visible');
+		
+		// Free spins mode ready - treasure vault background active
+		console.log(`Free spins mode ready: ${bookEvent.totalFs} free spins available`);
+		console.log('Treasure vault background is now visible');
+		
+		// Free spins mode ready - manual control
+		console.log(`Free spins mode ready: ${bookEvent.totalFs} free spins available`);
+		console.log('Treasure vault background is now visible');
+		console.log('Click the spin button to use your free spins manually');
 	},
 	freeSpinRetrigger: async (bookEvent: BookEventOfType<'freeSpinTrigger'>) => {
-		// animate scatters
-		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_scatter_win_v2' });
-		await animateSymbols({ positions: bookEvent.positions });
+		// DISABLED - same issues as freeSpinTrigger
+		// eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_scatter_win_v2' });
+		// await animateSymbols({ positions: bookEvent.positions });
 		// show free spin intro
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_superfreespin' });
-		await eventEmitter.broadcastAsync({ type: 'uiHide' });
-		await eventEmitter.broadcastAsync({ type: 'transition' });
+		// DISABLED - these clear the board
+		// await eventEmitter.broadcastAsync({ type: 'uiHide' });
+		// await eventEmitter.broadcastAsync({ type: 'transition' });
+		console.log('BookEventHandler: Triggering freeSpinIntroShow');
 		eventEmitter.broadcast({ type: 'freeSpinIntroShow' });
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'jng_intro_fs' });
 		eventEmitter.broadcast({ type: 'soundMusic', name: 'bgm_freespin' });
+		console.log('BookEventHandler: Triggering freeSpinIntroUpdate with totalFs:', bookEvent.totalFs);
 		await eventEmitter.broadcastAsync({
 			type: 'freeSpinIntroUpdate',
 			totalFreeSpins: bookEvent.totalFs,
 		});
-		stateGame.gameType = 'freegame';
-		eventEmitter.broadcast({ type: 'freeSpinIntroHide' });
-		// eventEmitter.broadcast({ type: 'boardFrameGlowShow' }); // Disabled glow effect
+		// Wait for user to press continue before hiding the intro
+		// stateGame.gameType = 'freegame';
+		// eventEmitter.broadcast({ type: 'freeSpinIntroHide' });
+		// DISABLED - boom explosion causes issues
+		// eventEmitter.broadcast({ type: 'boomExplosionShow' });
+		// await eventEmitter.broadcastAsync({ type: 'boomExplosionUpdate' });
+		// eventEmitter.broadcast({ type: 'boomExplosionHide' });
 		eventEmitter.broadcast({ type: 'globalMultiplierShow' });
 		await eventEmitter.broadcastAsync({
 			type: 'globalMultiplierUpdate',
@@ -150,10 +192,21 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'freeSpinCounterShow' });
 		eventEmitter.broadcast({
 			type: 'freeSpinCounterUpdate',
-			current: undefined,
+			current: 0, // Start with 0 free spins used
 			total: bookEvent.totalFs,
 		});
-		await eventEmitter.broadcastAsync({ type: 'uiShow' });
+		
+		// Ensure board is visible and trigger spin
+		eventEmitter.broadcast({ type: 'boardShow' });
+		
+		// Trigger a spin to continue free spins
+		setTimeout(() => {
+			eventEmitter.broadcast({ type: 'bet' });
+			console.log('Free spin retrigger - continuing spins');
+		}, 1000);
+		
+		// DISABLED - might interfere with symbols
+		// await eventEmitter.broadcastAsync({ type: 'uiShow' });
 	},
 	updateFreeSpin: async (bookEvent: BookEventOfType<'updateFreeSpin'>) => {
 		eventEmitter.broadcast({ type: 'freeSpinCounterShow' });
@@ -178,6 +231,8 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 
 		await eventEmitter.broadcastAsync({ type: 'uiHide' });
 		stateGame.gameType = 'basegame';
+		// Hide treasure vault background when exiting bonus mode
+		stateGame.showTreasureVault = false;
 		eventEmitter.broadcast({ type: 'boardFrameGlowHide' });
 		eventEmitter.broadcast({ type: 'globalMultiplierHide' });
 		eventEmitter.broadcast({ type: 'freeSpinOutroShow' });
@@ -222,15 +277,27 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	setWin: async (bookEvent: BookEventOfType<'setWin'>) => {
 		const winLevelData = winLevelMap[bookEvent.winLevel as WinLevel];
 
-		eventEmitter.broadcast({ type: 'winShow' });
-		winLevelSoundsPlay({ winLevelData });
-		await eventEmitter.broadcastAsync({
-			type: 'winUpdate',
-			amount: bookEvent.amount,
-			winLevelData,
-		});
-		winLevelSoundsStop();
-		eventEmitter.broadcast({ type: 'winHide' });
+		// Use WinScreen for big wins, otherwise use regular win display
+		if (winLevelData.type === 'big') {
+			eventEmitter.broadcast({ type: 'winScreenShow' });
+			eventEmitter.broadcast({
+				type: 'winScreenUpdate',
+				amount: bookEvent.amount,
+				winLevelData: winLevelData
+			});
+		} else {
+			// Show win info instead of regular win display
+			eventEmitter.broadcast({
+				type: 'showClusterWinAmounts',
+				wins: [{
+					result: bookEvent.amount,
+					win: bookEvent.amount,
+					mult: 1,
+					reel: 0,
+					row: 0
+				}]
+			});
+		}
 	},
 	updateGrid: async (bookEvent: BookEventOfType<'updateGrid'>) => {
 		eventEmitter.broadcast({ type: 'multiplierGridShow' });

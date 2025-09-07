@@ -31,7 +31,21 @@
 
 	context.eventEmitter.subscribeOnMount({
 		// Connect every actor with app.eventEmitter to avoid call actor directly
-		bet: () => gameActor.send({ type: 'BET' }),
+		bet: () => {
+			console.log('=== BET EVENT RECEIVED ===');
+			console.log('Bet event received in EnableGameActor');
+			console.log('Game type:', context.stateGame.gameType);
+			console.log('Game actor state:', gameActor.getSnapshot());
+			console.log('Sending BET to game actor...');
+			gameActor.send({ type: 'BET' });
+			console.log('BET sent to game actor');
+			
+			// Check game state after sending BET
+			setTimeout(() => {
+				console.log('Game actor state after BET:', gameActor.getSnapshot());
+				console.log('Game type after BET:', context.stateGame.gameType);
+			}, 1000);
+		},
 		autoBet: () => gameActor.send({ type: 'AUTO_BET' }),
 		resumeBet: () => gameActor.send({ type: 'RESUME_BET' }),
 		forceResult: () => gameActor.send({ type: 'FORCE_RESULT' }),

@@ -92,11 +92,13 @@
 								<ResponsiveBitmapText
 									anchor={{ x: 0.5, y: 0.5 }}
 									style={{
-										fontFamily: 'gold',
+										fontFamily: 'superbubble',
 										fontSize: sizes.width * 0.15,
+										fontWeight: 'bold',
 									}}
 									text={bookEventAmountToCurrencyString(countUpAmount)}
 									maxWidth={sizes.width}
+									tint={0xFFD700}
 								/>
 							</SpineSlot>
 						</SpineProvider>

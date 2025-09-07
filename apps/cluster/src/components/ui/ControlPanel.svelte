@@ -19,9 +19,27 @@
   const context = getContext();
 
   function handleSpin() {
+    console.log('=== SPIN BUTTON CLICKED ===');
+    console.log('Spin button clicked!');
+    console.log('Current game state:', context.stateXstate.value);
+    console.log('Current balance:', stateBet.balanceAmount);
+    console.log('Spinning state:', spinning);
+    console.log('Event emitter:', context.eventEmitter);
+    
+    if (spinning) {
+      console.log('Already spinning, ignoring click');
+      return;
+    }
+    
     spinning = true;
+    console.log('Broadcasting bet event...');
     context.eventEmitter.broadcast({ type: 'bet' });
-    setTimeout(() => { spinning = false; }, 600);
+    console.log('Bet event broadcasted');
+    
+    setTimeout(() => { 
+      spinning = false; 
+      console.log('Spin timeout completed, spinning set to false');
+    }, 600);
   }
 
   function toggleTurbo() {
@@ -182,7 +200,7 @@
         {/if}
       </div>
       <div class="icon-btn" on:click={toggleInfo} aria-label="Info">
-        <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="2" fill="none"/><text x="12" y="16" text-anchor="middle" fill="#fff" font-size="12" font-family="Arial" dy=".3em">i</text></svg>
+        <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="2" fill="none"/><text x="12" y="16" text-anchor="middle" fill="#fff" font-size="12" font-family="Super Bubble, gold" dy=".3em">i</text></svg>
         {#if showInfo}
           <DropdownPanel><InfoPanel show={showInfo} onClose={toggleInfo} /></DropdownPanel>
         {/if}
@@ -203,7 +221,7 @@
     align-items: center;
     justify-content: space-between;
     z-index: 1000;
-    font-family: inherit;
+    font-family: 'Super Bubble', 'gold', Arial, sans-serif;
     box-shadow: 0 -2px 16px rgba(0,0,0,0.3);
     padding: 0 32px;
   }

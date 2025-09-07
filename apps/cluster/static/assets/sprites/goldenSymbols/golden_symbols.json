@@ -1,0 +1,48 @@
+{
+  "frames": {
+    "golden_exclamation": {
+      "frame": {"x": 0, "y": 0, "w": 50, "h": 50},
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {"x": 0, "y": 0, "w": 50, "h": 50},
+      "sourceSize": {"w": 50, "h": 50}
+    },
+    "golden_at": {
+      "frame": {"x": 50, "y": 0, "w": 50, "h": 50},
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {"x": 0, "y": 0, "w": 50, "h": 50},
+      "sourceSize": {"w": 50, "h": 50}
+    },
+    "golden_hash": {
+      "frame": {"x": 100, "y": 0, "w": 50, "h": 50},
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {"x": 0, "y": 0, "w": 50, "h": 50},
+      "sourceSize": {"w": 50, "h": 50}
+    },
+    "golden_dollar": {
+      "frame": {"x": 150, "y": 0, "w": 50, "h": 50},
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {"x": 0, "y": 0, "w": 50, "h": 50},
+      "sourceSize": {"w": 50, "h": 50}
+    },
+    "golden_percent": {
+      "frame": {"x": 200, "y": 0, "w": 50, "h": 50},
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {"x": 0, "y": 0, "w": 50, "h": 50},
+      "sourceSize": {"w": 50, "h": 50}
+    }
+  },
+  "meta": {
+    "app": "https://www.codeandweb.com/texturepacker",
+    "version": "1.0",
+    "image": "golden_symbols.png",
+    "format": "RGBA8888",
+    "size": {"w": 250, "h": 50},
+    "scale": "1"
+  }
+}
+

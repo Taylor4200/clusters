@@ -1,0 +1,12 @@
+heist_win_spine.webp
+size: 1000,800
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+heist_win_spine
+  rotate: false
+  xy: 0, 0
+  size: 1000, 800
+  orig: 1000, 800
+  offset: 0, 0
+  index: -1

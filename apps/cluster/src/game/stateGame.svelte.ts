@@ -86,6 +86,7 @@ export const stateGame = $state({
 	tumbleBoardBase: [] as TumbleSymbol[][],
 	multiplierBoard: [] as (MultiplierSymbol | undefined)[][],
 	scatterCounter: 0,
+	showTreasureVault: false, // Custom state for treasure vault background
 });
 
 const boardLayout = () => ({

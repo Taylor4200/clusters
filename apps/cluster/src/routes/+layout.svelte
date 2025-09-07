@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { type Snippet } from 'svelte';
 	import { GlobalStyle } from 'components-ui-html';
-	import { Authenticate, LoaderStakeEngine, LoaderExample, LoadI18n } from 'components-shared';
+	import { LoaderStakeEngine, LoaderExample, LoadI18n } from 'components-shared';
+	// import { Authenticate, LoaderStakeEngine, LoaderExample, LoadI18n } from 'components-shared';
 	import Game from '../components/Game.svelte';
 	import { setContext } from '../game/context';
 
@@ -20,11 +21,11 @@
 </script>
 
 <GlobalStyle>
-	<Authenticate>
+	<!-- <Authenticate> -->
 		<LoadI18n {messagesMap}>
 			<Game />
 		</LoadI18n>
-	</Authenticate>
+	<!-- </Authenticate> -->
 </GlobalStyle>
 
 <LoaderStakeEngine src={loaderUrlStakeEngine} oncomplete={() => (showYourLoader = true)} />
