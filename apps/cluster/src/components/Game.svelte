@@ -12,6 +12,7 @@
 
 	import { getContext } from '../game/context';
 	import { playBookEvent } from '../game/utils';
+	import { INITIAL_BOARD } from '../game/constants';
 	import EnableSound from './EnableSound.svelte';
 	import EnableGameActor from './EnableGameActor.svelte';
 	import ResumeBet from './ResumeBet.svelte';
@@ -30,12 +31,14 @@
 	import WinScreen from './WinScreen.svelte';
 	import FreeSpinIntro from './FreeSpinIntro.svelte';
 	import HeistContinueScreen from './HeistContinueScreen.svelte';
+	import FinalWinScreen from './FinalWinScreen.svelte';
 	import BoomExplosion from './BoomExplosion.svelte';
 	import FreeSpinCounter from './FreeSpinCounter.svelte';
 	import FreeSpinOutro from './FreeSpinOutro.svelte';
 	import Transition from './Transition.svelte';
 	import I18nTest from './I18nTest.svelte';
 	import ControlPanel from './ui/ControlPanel.svelte';
+	import DebugPanel from './DebugPanel.svelte';
 
 	import assets from '../game/assets';
 
@@ -76,6 +79,14 @@
 				stateBet.balanceAmount -= buyBonusCost;
 				
 				console.log('Buy bonus purchased - showing free spin intro');
+				
+				// Play bonus trigger sound
+				context.eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_bonus_trigger' });
+				
+				// Set treasure vault background to visible for bonus buy
+				console.log('Game: Setting showTreasureVault to true');
+				context.stateGame.showTreasureVault = true;
+				console.log('Game: showTreasureVault is now:', context.stateGame.showTreasureVault);
 				
 				// Show free spin intro first
 				context.eventEmitter.broadcast({ type: 'freeSpinIntroShow' });
@@ -151,7 +162,7 @@
 	<EnableSound />
 	<EnableHotkey />
 	<EnableSpaceHold />
-	<EnableGameActor />
+	<EnableGameActor debug={true} />
 	<EnablePixiExtension />
 
 	<Background />
@@ -207,6 +218,7 @@
 		<WinScreen />
 		<FreeSpinIntro />
 		<HeistContinueScreen />
+		<FinalWinScreen />
 		<BoomExplosion />
 		{#if ['desktop', 'landscape'].includes(context.stateLayoutDerived.layoutType())}
 			<FreeSpinCounter />
@@ -215,6 +227,7 @@
 		<Transition />
 
 		<I18nTest />
+		<DebugPanel />
 	{/if}
 </App>
 

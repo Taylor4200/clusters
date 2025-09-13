@@ -216,7 +216,7 @@ export default {
 	},
 	finalWin: {
 		type: 'finalWin',
-		amount: 0,
+		amount: 50000,
 	},
 	winInfo: {
 		type: 'winInfo',
@@ -390,7 +390,7 @@ export default {
 	},
 	setWin: {
 		type: 'setWin',
-		amount: 550,
+		amount: 2500,
 		winLevel: 5,
 	},
 	freeSpinTrigger: {

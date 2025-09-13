@@ -8,12 +8,13 @@
 </script>
 
 <script lang="ts">
-	import { Container } from 'pixi-svelte';
-	import { FadeContainer, WinCountUpProvider, ResponsiveBitmapText } from 'components-pixi';
+	import { Container, BitmapText } from 'pixi-svelte';
+	import { FadeContainer, WinCountUpProvider } from 'components-pixi';
 	import { waitForResolve, waitForTimeout } from 'utils-shared/wait';
 	import { bookEventAmountToCurrencyString } from 'utils-shared/amount';
 	import { CanvasSizeRectangle, MainContainer } from 'components-layout';
 	import { OnMount } from 'components-shared';
+	import { stateUrlDerived } from 'state-shared';
 
 	import PressToContinue from './PressToContinue.svelte';
 	import { Sprite } from 'pixi-svelte';
@@ -26,6 +27,40 @@
 	let amount = $state(0);
 	let winLevelData = $state<WinLevelData>();
 	let oncomplete = $state(() => {});
+	let animationTime = $state(0);
+
+	// Get current language for localized assets
+	const currentLang = $derived(stateUrlDerived?.lang?.() || 'en');
+
+	// Animation for single zoom in effect
+	let animationId: number;
+	let animationComplete = $state(false);
+	
+	// Start animation when component mounts
+	$effect(() => {
+		if (show && !animationComplete) {
+			const animate = () => {
+				animationTime += 0.02; // Smooth zoom in
+				if (animationTime >= 1) {
+					animationTime = 1; // Stop at full zoom
+					animationComplete = true;
+					cancelAnimationFrame(animationId);
+				} else {
+					animationId = requestAnimationFrame(animate);
+				}
+			};
+			animate();
+		} else if (!show) {
+			if (animationId) {
+				cancelAnimationFrame(animationId);
+			}
+			animationTime = 0;
+			animationComplete = false;
+		}
+	});
+
+	// Calculate single zoom in effect (0 to 1.1) - only zooms in once
+	const pulseScale = $derived(1.0 + 0.1 * animationTime); // Linear zoom from 1.0 to 1.1
 
 	context.eventEmitter.subscribeOnMount({
 		winScreenShow: () => (show = true),
@@ -39,26 +74,23 @@
 
 	// Get the appropriate win screen image based on win level
 	const getWinScreenImage = (winLevelData: WinLevelData) => {
-		switch (winLevelData.alias) {
-			case 'big':
-				return 'big-win.png';
-			case 'epic':
-				return 'epic-win.png';
-			case 'mega':
-				return 'mega-win.png';
-			case 'max':
-				return 'max-win.png';
-			default:
-				return 'big-win.png'; // fallback
+		// Always use heist crew background for all win levels
+		// This ensures set wins always show the pig police officers background
+		return 'heistCrewBg';
+	};
+
+	// Get the specific sprite name for normal/small wins
+	const getWinSmallSpriteName = (winLevelData: WinLevelData) => {
+		if (winLevelData.alias === 'big' || winLevelData.alias === 'epic' || winLevelData.alias === 'mega' || winLevelData.alias === 'max') {
+			return null; // Not used for big wins
 		}
+		return `winsmall_${currentLang}.png`;
 	};
 </script>
 
 <FadeContainer {show}>
-	{#if winLevelData}
-		{@const isBigWin = winLevelData.type === 'big'}
-		{@const duration = winLevelData.presentDuration}
-		{@const imageKey = getWinScreenImage(winLevelData)}
+					{#if winLevelData}
+						{@const duration = winLevelData.presentDuration}
 		
 		<WinCountUpProvider {amount} {duration} oncomplete={() => oncomplete()}>
 			{#snippet children({ countUpAmount, startCountUp, finishCountUp, countUpCompleted })}
@@ -71,60 +103,51 @@
 				/>
 
 				<MainContainer>
-					{#if isBigWin}
-						<!-- Win Screen Image - 25% smaller -->
-						<Sprite
-							key={imageKey}
-							anchor={{ x: 0.5, y: 0.5 }}
-							x={context.stateLayoutDerived.mainLayout().width * 0.5}
-							y={context.stateLayoutDerived.mainLayout().height * 0.5}
-							width={context.stateLayoutDerived.mainLayout().width * 0.6}
-							height={context.stateLayoutDerived.mainLayout().height * 0.45}
-						/>
+					{@const debugInfo = `WinScreen: Rendering WIN with heist crew background`}
+					{console.log(debugInfo)}
+					{console.log('WinScreen: winLevelData:', winLevelData)}
+					{console.log('WinScreen: Using heistCrewBg asset for all wins')}
+					
+					<!-- Win Screen Image - Pig Police Officers Background -->
+					<Sprite
+						key="heistCrewBg"
+						anchor={{ x: 0.5, y: 0.5 }}
+						x={context.stateLayoutDerived.mainLayout().width * 0.507}
+						y={context.stateLayoutDerived.mainLayout().height * 0.5}
+						width={context.stateLayoutDerived.mainLayout().width * 0.45}
+						height={context.stateLayoutDerived.mainLayout().height * 0.34}
+					/>
 
-						<!-- Win Amount Text Overlay - 25% smaller -->
-						<Container
-							x={context.stateLayoutDerived.mainLayout().width * 0.5}
-							y={context.stateLayoutDerived.mainLayout().height * 0.7}
-						>
-							<ResponsiveBitmapText
-								anchor={0.5}
-								maxWidth={context.stateLayoutDerived.canvasSizes().width /
-									context.stateLayoutDerived.mainLayout().scale}
-								text={bookEventAmountToCurrencyString(countUpAmount)}
-								style={{
-									fontFamily: 'superbubble',
-									fontSize: SYMBOL_SIZE * 1.5,
-									align: 'center',
-									fontWeight: 'bold',
-									letterSpacing: 0,
-									dropShadow: true,
-									stroke: 0x000000,
-								}}
-								tint={0xFFD700}
-							/>
-						</Container>
-					{:else}
-						<!-- Regular win display for non-big wins -->
-						<Container
-							x={context.stateGameDerived.boardLayout().x}
-							y={context.stateGameDerived.boardLayout().y}
-						>
-							<ResponsiveBitmapText
-								anchor={0.5}
-								maxWidth={context.stateLayoutDerived.canvasSizes().width /
-									context.stateLayoutDerived.mainLayout().scale}
-								text={bookEventAmountToCurrencyString(countUpAmount)}
-								style={{
-									fontFamily: 'superbubble',
-									fontSize: SYMBOL_SIZE * 1.125,
-									align: 'center',
-									fontWeight: 'bold',
-									letterSpacing: 0,
-								}}
-							/>
-						</Container>
+					<!-- Win Level Text (BIG WIN, MEGA WIN, etc.) with pulsing zoom animation -->
+					{#if winLevelData?.text}
+						<BitmapText
+							anchor={{ x: 0.5, y: 0.5 }}
+							x={context.stateLayoutDerived.mainLayout().width * 0.507}
+							y={context.stateLayoutDerived.mainLayout().height * 0.35}
+							text={winLevelData.text}
+							style={{
+								fontFamily: 'superbubble',
+								fontSize: 48,
+								fontWeight: 'bold',
+							}}
+							tint={0xFFD700}
+							scale={{ x: pulseScale, y: pulseScale }}
+						/>
 					{/if}
+
+					<!-- Win Amount Text Overlay - More visible -->
+					<BitmapText
+						anchor={{ x: 0.5, y: 0.5 }}
+						x={context.stateLayoutDerived.mainLayout().width * 0.507}
+						y={context.stateLayoutDerived.mainLayout().height * 0.6}
+						text={bookEventAmountToCurrencyString(countUpAmount)}
+						style={{
+							fontFamily: 'superbubble',
+							fontSize: 72,
+							fontWeight: 'bold',
+						}}
+						tint={0xFFFFFF}
+					/>
 				</MainContainer>
 
 				<PressToContinue onpress={() => (countUpCompleted ? oncomplete() : finishCountUp())} />

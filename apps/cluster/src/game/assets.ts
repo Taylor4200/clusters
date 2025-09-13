@@ -160,6 +160,16 @@ export default {
 		src: new URL('../../assets/sprites/winScreen/pig_police_vault.webp', import.meta.url).href,
 		preload: true,
 	},
+	freeSpinBackground: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/winScreen/free_spin_background.png', import.meta.url).href,
+		preload: true,
+	},
+	finalWinBackground: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/winScreen/final_win_background.png', import.meta.url).href,
+		preload: true,
+	},
 	bigWinSpine: {
 		type: 'spine',
 		src: {
@@ -265,11 +275,6 @@ export default {
 			scale: 2,
 		},
 	},
-	progressBar: {
-		type: 'sprites',
-		src: new URL('../../assets/sprites/progressBar/progressBar.json', import.meta.url).href,
-		preload: true,
-	},
 	freeSpins: {
 		type: 'sprites',
 		src: new URL('../../assets/sprites/freeSpins/freeSpins.json', import.meta.url).href,
@@ -278,6 +283,17 @@ export default {
 	winSmall: {
 		type: 'sprites',
 		src: new URL('../../assets/sprites/winSmall/MM_Localisation_winsmall.json', import.meta.url).href,
+		preload: true,
+	},
+	heistCrewBg: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/winScreen/heist_crew_bg.png', import.meta.url).href,
+		preload: true,
+	},
+	goldenFrame: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/bonusReel/golden_frame.png', import.meta.url).href,
+		preload: true,
 	},
 	clusterWin: {
 		type: 'spine',

@@ -115,3 +115,41 @@
 	})}
 	{template}
 />
+
+<Story
+	name="normalWin"
+	args={templateArgs({
+		skipLoadingScreen: true,
+		action: async () => {
+			const winLevelData = winLevelMap[3]; // 'small' win level
+			
+			// Trigger the win screen
+			context.eventEmitter.broadcast({ type: 'winScreenShow' });
+			context.eventEmitter.broadcast({
+				type: 'winScreenUpdate',
+				amount: 100,
+				winLevelData: winLevelData
+			});
+		},
+	})}
+	{template}
+/>
+
+<Story
+	name="mediumWin"
+	args={templateArgs({
+		skipLoadingScreen: true,
+		action: async () => {
+			const winLevelData = winLevelMap[4]; // 'nice' win level
+			
+			// Trigger the win screen
+			context.eventEmitter.broadcast({ type: 'winScreenShow' });
+			context.eventEmitter.broadcast({
+				type: 'winScreenUpdate',
+				amount: 500,
+				winLevelData: winLevelData
+			});
+		},
+	})}
+	{template}
+/>

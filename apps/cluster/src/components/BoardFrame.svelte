@@ -70,12 +70,12 @@
 {/if}
 -->
 
-<!-- Reel frame visible with reduced brightness to remove glow -->
+<!-- Reel frame - use golden frame for bonus mode, regular frame for normal mode -->
 <Sprite
-	key="reelsFrame"
+	key={context.stateGame.gameType === 'freegame' ? 'goldenFrame' : 'reelsFrame'}
 	anchor={0.5}
 	alpha={1}
-	tint={context.stateGame.gameType === 'freegame' ? 0xFFD700 : 0xffffff}
+	tint={0xffffff}
 	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT}
 	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT}
 	width={context.stateGameDerived.boardLayout().width * 1.33}

@@ -13,6 +13,7 @@
 	import { BitmapText, SpineProvider, SpineSlot, SpineTrack, Sprite } from 'pixi-svelte';
 
 	import { getContext } from '../game/context';
+	import { INITIAL_BOARD } from '../game/constants';
 	import PressToContinue from './PressToContinue.svelte';
 	import FreeSpinAnimation from './FreeSpinAnimation.svelte';
 
@@ -55,12 +56,22 @@
 	// Handle continue press - transition to free game mode
 	const handleContinue = () => {
 		console.log('FreeSpinIntro: handleContinue called');
+		console.log('FreeSpinIntro: Current gameType:', context.stateGame.gameType);
+		console.log('FreeSpinIntro: Current showTreasureVault:', context.stateGame.showTreasureVault);
 		
 		// Set game type to freegame
 		context.stateGame.gameType = 'freegame';
+		console.log('FreeSpinIntro: Set gameType to freegame');
 		
-		// Populate the board with symbols
+		// Show the board first
 		context.eventEmitter.broadcast({ type: 'boardShow' });
+		
+		// Use the existing board data if available, otherwise use INITIAL_BOARD
+		if (context.stateGame.board && context.stateGame.board.length > 0) {
+			context.eventEmitter.broadcast({ type: 'boardSettle', board: context.stateGame.board });
+		} else {
+			context.eventEmitter.broadcast({ type: 'boardSettle', board: INITIAL_BOARD });
+		}
 		
 		// Show free spins UI
 		context.eventEmitter.broadcast({ type: 'freeSpinCounterShow' });
@@ -83,66 +94,68 @@
 <FadeContainer {show}>
 	<FreeSpinAnimation>
 		{#snippet children({ sizes })}
-			<!-- Pig Police Vault - centered as main focal point -->
+			<!-- Free Spin Background - centered as main focal point -->
+			{console.log('FreeSpinIntro: Rendering freeSpinBackground sprite')}
 			<Sprite
 				anchor={{ x: 0.5, y: 0.5 }}
 				width={400}
 				height={400}
 				y={0}
-				key="pigPoliceVault"
+				key="freeSpinBackground"
 			/>
 
-			<!-- "CONGRATULATIONS" text - positioned at the top of the vault -->
+			<!-- "CONGRATULATIONS" text - positioned at the top of the vault (20% smaller, moved up) -->
 			<BitmapText
 				anchor={{ x: 0.5, y: 0.5 }}
 				x={0}
-				y={-160}
+				y={-170}
 				text="CONGRATULATIONS"
-				style={{
-					fontFamily: 'superbubble',
-					fontSize: 35,
-					fontWeight: 'bold',
-				}}
-				tint={0xFFD700}
-			/>
-
-			<!-- "YOU WON" text - positioned above the number -->
-			<BitmapText
-				anchor={{ x: 0.5, y: 0.5 }}
-				x={0}
-				y={-50}
-				text="YOU WON"
 				style={{
 					fontFamily: 'superbubble',
 					fontSize: 28,
 					fontWeight: 'bold',
 				}}
-				tint={0xFFFFFF}
+				tint={0xFFD700}
 			/>
 
-			<!-- Number - positioned below YOU WON -->
+
+		<!-- Number - positioned slightly higher on the safe door -->
+		<BitmapText
+			anchor={{ x: 0.5, y: 0.5 }}
+			x={0}
+			y={132}
+			text={freeSpinsFromEvent}
+			style={{
+				fontFamily: 'superbubble',
+				fontSize: 60,
+				fontWeight: 'bold',
+			}}
+			tint={0xFFFFFF}
+		/>
+
+			<!-- "FREE" text - positioned to the right, moved down a little more (20% smaller) -->
 			<BitmapText
 				anchor={{ x: 0.5, y: 0.5 }}
-				x={0}
-				y={0}
-				text={freeSpinsFromEvent}
+				x={120}
+				y={115}
+				text="FREE"
 				style={{
 					fontFamily: 'superbubble',
-					fontSize: 60,
+					fontSize: 26,
 					fontWeight: 'bold',
 				}}
 				tint={0xFFFFFF}
 			/>
 
-			<!-- "FREE SPINS" text - positioned at the bottom of the vault -->
+			<!-- "SPINS" text - positioned to the right, below FREE (20% smaller) -->
 			<BitmapText
 				anchor={{ x: 0.5, y: 0.5 }}
-				x={0}
-				y={160}
-				text="FREE SPINS"
+				x={120}
+				y={145}
+				text="SPINS"
 				style={{
 					fontFamily: 'superbubble',
-					fontSize: 32,
+					fontSize: 26,
 					fontWeight: 'bold',
 				}}
 				tint={0xFFFFFF}

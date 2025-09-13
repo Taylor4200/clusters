@@ -53,6 +53,10 @@ export const getSymbolX = (reelIndex: number) => SYMBOL_SIZE * (reelIndex + REEL
 export const getSymbolY = (symbolIndexOfBoard: number) => (symbolIndexOfBoard + 0.5) * SYMBOL_SIZE;
 
 export const getSymbolKey = ({ rawSymbol }: { rawSymbol: RawSymbol }) => {
+	if (!rawSymbol || !rawSymbol.name) {
+		console.warn('getSymbolKey: rawSymbol or rawSymbol.name is undefined', rawSymbol);
+		return 'wild' as keyof typeof SYMBOL_INFO_MAP; // fallback to wild symbol
+	}
 	if (rawSymbol.multiplier !== undefined) {
 		return `${rawSymbol.name}_${rawSymbol.multiplier}` as keyof typeof SYMBOL_INFO_MAP;
 	}
@@ -67,5 +71,17 @@ export const getSymbolInfo = ({
 	state: SymbolState;
 }) => {
 	const symbolKey = getSymbolKey({ rawSymbol });
-	return SYMBOL_INFO_MAP[symbolKey][state];
+	const symbolInfo = SYMBOL_INFO_MAP[symbolKey];
+	
+	if (!symbolInfo) {
+		console.warn('getSymbolInfo: No symbol info found for key:', symbolKey);
+		return SYMBOL_INFO_MAP['wild']['static']; // fallback to wild symbol static state
+	}
+	
+	if (!symbolInfo[state]) {
+		console.warn('getSymbolInfo: No state info found for key:', symbolKey, 'state:', state);
+		return symbolInfo['static']; // fallback to static state
+	}
+	
+	return symbolInfo[state];
 };

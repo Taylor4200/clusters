@@ -47,7 +47,7 @@
 {/if}
 
 {#if showWinFrame}
-	<SpineProvider x={props.x} y={props.y} key="anticipation" width={SYMBOL_SIZE * 0.19}>
+	<SpineProvider x={props.x} y={props.y} key="anticipation" width={SYMBOL_SIZE * 0.19} tint={0xFF0000}>
 		<SpineTrack trackIndex={0} animationName={'payframe'} loop />
 	</SpineProvider>
 {/if}

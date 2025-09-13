@@ -44,9 +44,16 @@ const animateSymbols = async ({ positions }: { positions: Position[] }) => {
 
 export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContext> = {
 	reveal: async (bookEvent: BookEventOfType<'reveal'>, { bookEvents }: BookEventContext) => {
+		console.log('🎲 REVEAL EVENT', {
+			event: bookEvent,
+			totalEvents: bookEvents.length,
+			timestamp: new Date().toISOString()
+		});
+		
 		eventEmitter.broadcast({ type: 'tumbleWinAmountReset' });
 		const isBonusGame = checkIsMultipleRevealEvents({ bookEvents });
 		if (isBonusGame) {
+			console.log('🎁 BONUS GAME DETECTED');
 			eventEmitter.broadcast({ type: 'stopButtonEnable' });
 			recordBookEvent({ bookEvent });
 		}
@@ -89,6 +96,13 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		}
 	},
 	setTotalWin: async (bookEvent: BookEventOfType<'setTotalWin'>) => {
+		console.log('💎 SET TOTAL WIN EVENT', {
+			amount: bookEvent.amount,
+			betAmount: stateBet.betAmount,
+			multiplier: bookEvent.amount / stateBet.betAmount,
+			timestamp: new Date().toISOString()
+		});
+		
 		stateBet.winBookEventAmount = bookEvent.amount;
 		
 		// Check if we've hit the win cap (5000x bet)
@@ -107,6 +121,12 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		}
 	},
 	freeSpinTrigger: async (bookEvent: BookEventOfType<'freeSpinTrigger'>) => {
+		console.log('🎰 FREE SPIN TRIGGER EVENT', {
+			totalFs: bookEvent.totalFs,
+			positions: bookEvent.positions,
+			timestamp: new Date().toISOString()
+		});
+		
 		// animate scatters - DISABLED to prevent symbol removal
 		// eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_scatter_win_v2' });
 		// await animateSymbols({ positions: bookEvent.positions });
@@ -122,7 +142,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		// 	type: 'heistContinueUpdate',
 		// });
 		// Simple approach - just show free spins UI
-		console.log('Free spins mode activated - treasure vault background is now visible');
+		console.log('🎁 Free spins mode activated - treasure vault background is now visible');
 		// Set treasure vault background to visible
 		stateGame.showTreasureVault = true;
 		// eventEmitter.broadcast({ type: 'heistContinueHide' });
@@ -277,27 +297,13 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	setWin: async (bookEvent: BookEventOfType<'setWin'>) => {
 		const winLevelData = winLevelMap[bookEvent.winLevel as WinLevel];
 
-		// Use WinScreen for big wins, otherwise use regular win display
-		if (winLevelData.type === 'big') {
-			eventEmitter.broadcast({ type: 'winScreenShow' });
-			eventEmitter.broadcast({
-				type: 'winScreenUpdate',
-				amount: bookEvent.amount,
-				winLevelData: winLevelData
-			});
-		} else {
-			// Show win info instead of regular win display
-			eventEmitter.broadcast({
-				type: 'showClusterWinAmounts',
-				wins: [{
-					result: bookEvent.amount,
-					win: bookEvent.amount,
-					mult: 1,
-					reel: 0,
-					row: 0
-				}]
-			});
-		}
+		// Always use WinScreen for set wins to show pig police officers background
+		eventEmitter.broadcast({ type: 'winScreenShow' });
+		eventEmitter.broadcast({
+			type: 'winScreenUpdate',
+			amount: bookEvent.amount,
+			winLevelData: winLevelData
+		});
 	},
 	updateGrid: async (bookEvent: BookEventOfType<'updateGrid'>) => {
 		eventEmitter.broadcast({ type: 'multiplierGridShow' });
@@ -308,6 +314,15 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'multiplierGridHide' });
 		eventEmitter.broadcast({ type: 'globalMultiplierHide' });
 		eventEmitter.broadcast({ type: 'tumbleWinAmountHide' });
+		
+		// Show final win screen with the pig police officers background
+		eventEmitter.broadcast({ 
+			type: 'finalWinScreenShow' 
+		});
+		eventEmitter.broadcast({ 
+			type: 'finalWinScreenUpdate', 
+			amount: bookEvent.amount 
+		});
 	},
 	// customised
 	createBonusSnapshot: async (bookEvent: BookEventOfType<'createBonusSnapshot'>) => {

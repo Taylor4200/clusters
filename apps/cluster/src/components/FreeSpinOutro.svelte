@@ -63,52 +63,19 @@
 
 				<FreeSpinAnimation>
 					{#snippet children({ sizes })}
-						{#if isBigWin}
-							<Sprite
-								anchor={{ x: 0.5, y: 1.2 }}
-								width={500 * 2.2}
-								height={156 * 2.2}
-								key="freespins_{stateUrlDerived.lang()}.png"
-							/>
-						{:else}
-							<Sprite
-								anchor={{ x: 0.5, y: 1.2 }}
-								width={500 * 4.5}
-								height={80 * 4.5}
-								key="winsmall_{stateUrlDerived.lang()}.png"
-							/>
-						{/if}
-
-						<SpineProvider key="fsOutroNumber" width={sizes.width * 0.4}>
-							<SpineTrack
-								trackIndex={0}
-								{animationName}
-								loop={animationName === 'idle'}
-								listener={{
-									complete: () => (animationName = 'idle'),
-								}}
-							/>
-							<SpineSlot slotName="slot_number">
-								<ResponsiveBitmapText
-									anchor={{ x: 0.5, y: 0.5 }}
-									style={{
-										fontFamily: 'superbubble',
-										fontSize: sizes.width * 0.15,
-										fontWeight: 'bold',
-									}}
-									text={bookEventAmountToCurrencyString(countUpAmount)}
-									maxWidth={sizes.width}
-									tint={0xFFD700}
-								/>
-							</SpineSlot>
-						</SpineProvider>
-
-						<Sprite
-							y={0}
-							anchor={{ x: 0.5, y: isBigWin ? -3.2 : -2 }}
-							width={177 * (isBigWin ? 2.2 : 3)}
-							height={42 * (isBigWin ? 2.2 : 3)}
-							key="totalwin.png"
+						<!-- Direct text without Spine animation to avoid background square -->
+						<ResponsiveBitmapText
+							anchor={{ x: 0.5, y: 0.5 }}
+							x={sizes.width * 0.5}
+							y={sizes.height * 0.5}
+							style={{
+								fontFamily: 'goldblur',
+								fontSize: sizes.width * 0.15,
+								fontWeight: 'bold',
+							}}
+							text={bookEventAmountToCurrencyString(countUpAmount)}
+							maxWidth={sizes.width * 0.8}
+							tint={0xFFD700}
 						/>
 					{/snippet}
 				</FreeSpinAnimation>
